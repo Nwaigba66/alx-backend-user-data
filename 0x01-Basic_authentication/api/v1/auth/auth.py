@@ -19,18 +19,18 @@ class Auth:
             if re.match(ex_path, path):
                 return False
             return True
-        
+
         def authorization_header(self, request=None) -> str:
-            """Used for Authorization Header
-            """
-            if request is None:
-                return None
-            authorization = request.headers.get("Authorization")
-            if not authorization:
-                return None
-            return authorization
-            
-        def current_user(self, request=None) -> TypeVar('User'):
-            """Get the current user
-            """            
+        """Used for Authorization Header
+        """
+        if request is None:
             return None
+        authorization = request.headers.get("Authorization")
+        if not authorization:
+            return None
+        return authorization
+    
+    def current_user(self, request=None) -> TypeVar('User')
+    """Get the current user
+    """
+    return None
