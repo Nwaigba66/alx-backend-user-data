@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Module define the authentication
+"""This Module define the authentication
 """
 from flask import request
 from typing import TypeVar, List
@@ -18,7 +18,7 @@ class Auth:
         for ex_path in excluded_paths:
             if re.match(ex_path, path):
                 return False
-            return True
+        return True
 
     def authorization_header(self, request=None) -> str:
         """Used for Authorization Header
