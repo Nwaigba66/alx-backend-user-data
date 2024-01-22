@@ -47,4 +47,41 @@ class BasicAuth(Auth):
     def user_object_from_credentials(
             self,
             user_email: str,
-            user_pwd: str) -> TypeVar('User')
+            user_pwd: str) -> TypeVar('User'):
+        """Retrive the current user object from credentials
+        """
+        if not user_email or not user_pwd:
+            return None
+        if not all(isinstance(itm, str) for itm in (user_email, user_pwd)):
+            return None
+        users = ''
+
+        try:
+            users = User.search(dict(email=user_email))
+        except Exception:
+            return None
+
+        for user in users:
+            if user.is_valid_password(user_pwd):
+                return user
+        return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """Get the current loggedin user
+        """
+        auth_header = self.authorization_header(request)
+        if not auth_header:
+            return None
+        base64_extract = self.extract_base64_authorization_header(
+                auth_header)
+        if not base64_extract:
+            return None
+        decoded_auth = self.decode_base64_authorization_header(
+                base64_extract)
+        if not decoded_auth:
+            return None
+        credentials = self.extract_user_credentials(decoded_auth)
+        if not any(credentials):
+            return None
+        user = self.user_object_from_credentials(*credentials)
+        return user
