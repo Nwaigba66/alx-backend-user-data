@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """A module that will create a SQLAlchemy model named User for a database
 """
 from sqlalchemy.ext.declarative import declarative_base
